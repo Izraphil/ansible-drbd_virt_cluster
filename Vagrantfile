@@ -48,10 +48,20 @@ Vagrant.configure("2") do |config|
             end
             vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', file_to_disk1_1]
         end
-        v.vm.provision "ansible" do |ansible|
+        v.vm.provision "ansible_local" do |ansible|
             ansible.verbose = "v"
             ansible.playbook = "site.yml"
+            ansible.provisioning_path = "/etc/ansible"
+            ansible.groups = {
+                    "drbd-cluster" => ["virt-cl-drbd-0","virt-cl-drbd-1"],
+                    "puppet" => ["puppet"],
+                    "awx" => ["awx"],
+                    "ipam" => ["ipam1","ipam2"],
+                    "q" => ["quartermaster"],
+                    "jenkins" => ["jenkins"],
+                    "all" => ["virt-cl-drbd-0","virt-cl-drbd-1"],
+                    "vms" => ["ipam1","ipam2","puppet", "awx", "quartermaster", "jenkins"]
+            }
         end
-        
     end
 end
