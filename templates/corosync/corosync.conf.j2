@@ -36,10 +36,10 @@ totem {
   transport: udpu
   interface: {
     member {
-      memberaddr: {{ hostvars['virt-cl-drbd-0']['eno2']['address'] }} 
+      memberaddr: {{ hostvars['virt-cl-drbd-0']['enp2s0f1']['address'] }} 
     }
     member {
-      memberaddr: {{ hostvars['virt-cl-drbd-1']['eno2']['address'] }} 
+      memberaddr: {{ hostvars['virt-cl-drbd-1']['enp2s0f1']['address'] }} 
     }
     ringnumber: 0		
     binnetaddr: {{ corosync_binnet_address }}
@@ -75,12 +75,12 @@ logging {
 
 nodelist {
   node {
-    ring0_addr: {{ hostvars['virt-cl-drbd-0']['eno2']['address'] }} 
+    ring0_addr: {{ hostvars['virt-cl-drbd-0']['enp2s0f1']['address'] }} 
     name: virt-cl-drbd-0
     nodeid: 1
   }
   node {
-    ring0_addr: {{ hostvars['virt-cl-drbd-1']['eno2']['address'] }} 
+    ring0_addr: {{ hostvars['virt-cl-drbd-1']['enp2s0f1']['address'] }} 
     name: virt-cl-drbd-1
     nodeid: 2
   }

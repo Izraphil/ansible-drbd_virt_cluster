@@ -2,13 +2,13 @@
 # /etc/ofcs2/cluster.conf
 node: 
   ip_port = 7777
-  ip_address = {{ hostvars['virt-cl-drbd-0']['eno2']['address'] }}
+  ip_address = {{ hostvars['virt-cl-drbd-0']['enp2s0f1']['address'] }}
   number = 0
   name = virt-cl-drbd-0
   cluster = ocfs2
 node:
   ip_port = 7777
-  ip_address = {{ hostvars['virt-cl-drbd-1']['eno2']['address'] }}
+  ip_address = {{ hostvars['virt-cl-drbd-1']['enp2s0f1']['address'] }}
   number = 1
   name = virt-cl-drbd-1
   cluster = ocfs2
