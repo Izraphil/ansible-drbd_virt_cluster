@@ -5,20 +5,14 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    eps0n:
-      dhcp4: true
-      optional: true
-    eps1n:
+    enp2s0f0:
+      dhcp4: no
+      dhcp6: no
+      addresses: [{{ enp2s0f0.address }}{{ enp2s0f0.netmask }}]
+      nameservers:
+        addresses: [{{ dns1 }}, {{ dns2 }}]
+      gateway4: {{ enp2s0f0.gateway }}
+    enp2s0f1:
       dhcp4: no
       dhcp6: no
       addresses: [{{ eps1n.address }}{{ eps1n.netmask }}]
-
-  bridges:
-    br0:
-      dhcp4: no
-      interfaces:
-        - bond0
-      addresses: [{{ br0.address }}{{ br0.netmask }}]
-      gateway4: {{ br0.gateway }}
-      nameservers:
-        addresses: [{{ dns1 }},{{ dns2 }}]

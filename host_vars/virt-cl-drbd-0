@@ -1,11 +1,12 @@
 ---
-eps1n:
-  address: 10.20.230.73
-  gateway: 10.20.230.65
-  netmask: /26
-br0:
-  address: 10.20.230.73
-  gateway: 10.20.230.65
-  netmask: /26
+enp2s0f0:
+  address: 172.18.98.101
+  gateway: 172.18.0.1
+  netmask: /16
+
+enp2s0f1:
+  address: 192.168.1.1
+  netmask: /30
+
 ipmi:
-  address: 10.20.230.138
+  address: 172.20.230.138
