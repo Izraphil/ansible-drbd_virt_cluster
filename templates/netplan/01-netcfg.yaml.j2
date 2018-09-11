@@ -15,7 +15,7 @@ network:
     enp2s0f1:
       dhcp4: no
       dhcp6: no
-      addresses: [{{ eps1n.address }}{{ eps1n.netmask }}]
+      addresses: [{{ enp2s0f1.address }}{{ enp2s0f1.netmask }}]
     bridges:
     br0:
       dhcp4: no
