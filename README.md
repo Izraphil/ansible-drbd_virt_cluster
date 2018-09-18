@@ -173,6 +173,52 @@ root@virt-cl-drbd-0:~# ./bin/create_rancheros_vm.sh vm_coreos 40
 ```
 root@virt-cl-drbd-0:~# crm configure < /etc/libvirt/qemu/vm_coreos.crm
 ```
+* **To remove a Virtual Machine definition and delete it's associated storage**
+```
+root@virt-cl-drbd-0:~# virsh undefine --remove-all-storage myvm
+```
+* **Recover from Cluster fencing loop or split brain**
+
+  * Ensure pacemaker is started and run:
+
+  ```
+  crm configure edit
+  ```
+
+  * Using vi commands search and replace "Started" with "Stopped"
+
+  ```
+  :s/Started/Stopped/g
+  ```
+
+  * Save the changes.
+  * Repeat on Other node if necessary.
+  * Start the ms-drbd0 resource to begin resync.
+
+  ```
+  crm resource start ms-drbd0
+  ```
+
+  * Watch the progress complete will change from Secondary/Secondary to Primary/Primary when complete.
+
+  ```
+  watch drbdadm status
+  ```
+
+  * When drbd is Primary/Primary you may bring up the rest of the cluster stack
+
+  ```
+  crm resource start hasi-clone
+  crm resource start g_vip_nginx
+  crm resource start p_fence_virt-cl-drbd-0
+  crm resource start p_fence_virt-cl-drbd-1
+  ```
+
+  * When all cluster resources are succesfully started you may then start the virtual machine resources.  For example:
+
+   ```
+   crm resource start vm_ipam1
+   ```
 
 ## Referrences
 
