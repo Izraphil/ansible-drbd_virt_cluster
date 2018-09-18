@@ -5,7 +5,7 @@
 
   tasks:
 
- - stat:
+  - stat:
       path: /dev/vg_drbd/lv_var_lib_libvirt_images
     register: lv_var_lib_libvirt_images
 

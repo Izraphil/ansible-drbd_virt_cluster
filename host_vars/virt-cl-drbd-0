@@ -9,7 +9,8 @@ enp2s0f1:
   netmask: /30
 
 br0:
-  address: 172.18.98.102
+
+  address: 172.18.98.101
   gateway: 172.18.0.1
   netmask: /16
 
