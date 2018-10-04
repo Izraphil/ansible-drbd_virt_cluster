@@ -20,13 +20,12 @@
 
   - name: Update Packages
     apt:
-      upgrade: dist
+      upgrade: yes
       update_cache: yes
 
   - name: Upgrade all packages to the latest version
     apt:
-      name: "*"
-      state: latest
+      force_apt_get: yes
 
   - name: Installing Required Packages
     apt: 'name={{item}} state=present update_cache=yes'

@@ -12,7 +12,7 @@ EOF
 virt-install \
         --name $1 \
         --os-type linux \
-        --os-variant rhel7 \
+        --os-variant debian9 \
         --virt-type kvm \
         --connect=qemu:///system \
         --vcpus 2 \
@@ -22,7 +22,19 @@ virt-install \
         --console pty,target_type=serial \
         --disk path=/var/lib/libvirt/images/$1.qcow2,format=qcow2,size=$2,bus=virtio \
         --nographics \
-        --location  'http://mirror.centos.org/centos-7/7/os/x86_64/' \
+        --location  'http://http.us.debian.org/debian/dists/stretch/main/installer-amd64' \
         --extra-args "
     console=ttyS0,115200n9 serial
-    ksdevice=eth0 ks=http://i.pxe.to/kickstart/centos-7.4.1708-x86_64.kickstart"
+    auto=true
+    priority=critical
+    interface=auto
+    language=en
+    country=US
+    locale=en_US
+    console-setup/variant=USA
+    console-setup/layout=USA
+    console-setup/layoutcode=us
+    console-setup/ask_detect=false
+    console-keymaps-at/keymap=us
+    pkgsel/language-pack-patterns=pkgsel/install-language-support=false 
+    preseed/url=http://i.pxe.to/preseed/debian-9-amd64.preseed"

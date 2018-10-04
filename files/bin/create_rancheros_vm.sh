@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RANCHEROS_VERSION=1.4.0
+RANCHEROS_VERSION=1.4.1
 RANCHEROSISO=https://github.com/rancher/os/releases/download/v$RANCHEROS_VERSION/rancheros.iso
 if [ !  -f /var/lib/libvirt/images/iso/rancheros-auto.iso ]; then
 echo "ISO not found, Retrieving RancherOS $RANCHEROS_VERSION ISO and modifying for local installations."
@@ -8,7 +8,7 @@ mkdir -p /var/lib/libvirt/images/ros.tmp
 mount -o loop /var/lib/libvirt/images/rancheros.iso /var/lib/libvirt/images/ros.tmp
 cp -rf /var/lib/libvirt/images/ros.tmp /var/lib/libvirt/images/ros_iso
 cat << EOF > /var/lib/libvirt/images/ros_iso/boot/global.cfg
-APPEND rancher.autologin=tty1 rancher.autologin=ttyS0 rancher.autologin=ttyS1 rancher.autologin=ttyS1 console=tty1 console=ttyS0,115200n9 serial console=ttyS1 printk.devkmsg=on panic=10 rancher.cloud_init.datasources=[url:http://i.pxe.to/cloud-config.yml/rancheros-1.4.0-amd64.pxe_installer.sh]
+APPEND rancher.autologin=tty1 rancher.autologin=ttyS0 rancher.autologin=ttyS1 rancher.autologin=ttyS1 console=tty1 console=ttyS0,115200n9 serial console=ttyS1 printk.devkmsg=on panic=10 rancher.cloud_init.datasources=[url:http://i.pxe.to/cloud-config.yml/rancheros-${RANCHEROS_VERSION}-amd64.pxe_installer.sh]
 EOF
 cd /var/lib/libvirt/images/ros_iso && xorriso \
     -as mkisofs \
@@ -26,7 +26,7 @@ fi
 cat << EOF > /etc/libvirt/qemu/$1.crm
 primitive $1 VirtualDomain \
         params config="/etc/libvirt/qemu/$1.xml" hypervisor="qemu:///system" migration_transport=ssh \
-        meta allow-migrate=true target-role=Started \
+        meta allow-migrate=true is-managed="true" target-role=Started \
         op start timeout=120s interval=0 \
         op stop timeout=120s interval=0 \
         op monitor timeout=30 interval=10 depth=0 \
@@ -48,10 +48,3 @@ virt-install \
         --disk path=/var/lib/libvirt/images/$1.qcow2,format=qcow2,size=$2,bus=virtio \
         --nographics \
         --cdrom /var/lib/libvirt/images/iso/rancheros-auto.iso
-
-#    --extra-args="
-#    console=ttyS0,115200n9 serial
-#    rancher.state.dev=LABEL=RANCHER_STATE
-#    rancher.state.autoformat=[/dev/sda,/dev/vda]
-#    rancher.password=rancher
-#    rancher.cloud_init.datasources=[url:http://i.pxe.to/cloud-config.yml/rancheros-1.4.0-amd64.pxe_installer.sh]" 
