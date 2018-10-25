@@ -64,4 +64,4 @@ doc/
 test/vagrant-spec/boxes/*.box
 
 #ISOs
-.iso
+*.iso
