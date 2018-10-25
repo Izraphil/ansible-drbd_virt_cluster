@@ -62,3 +62,6 @@ doc/
 
 # Box storage for spec
 test/vagrant-spec/boxes/*.box
+
+#ISOs
+.iso
